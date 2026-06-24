@@ -531,7 +531,7 @@ grid-template-columns:1fr;
 value="Paris Saint Germain">
 
 
-<input class="box"
+<input class="box" id="homeHandicap"
 value="-0.25">
 
 
@@ -559,7 +559,7 @@ value="FT">
 value="Arsenal">
 
 
-<input class="box"
+<input class="box" id="awayHandicap"
 value="+0.25">
 
 
@@ -768,6 +768,19 @@ OK
 
 <div class="history" id="adminPanel" style="display:none;">
 <h2>⚙️ Admin</h2>
+<h3>🎯 Điều khiển hệ thống</h3>
+<select class="box" id="adminMode">
+<option value="auto">AUTO</option>
+<option value="admin">ADMIN</option>
+</select><br><br>
+<select class="box" id="adminResult">
+<option value="HOME">Đội nhà</option>
+<option value="AWAY">Đội khách</option>
+<option value="OVER">Tài</option>
+<option value="UNDER">Xỉu</option>
+</select><br><br>
+<button class="predict" onclick="saveSystemControl()">Lưu cấu hình</button><br><br>
+
 <input class="box" id="memberUser" placeholder="Tên thành viên"><br><br>
 <input class="box" id="memberCoin" type="number" placeholder="Số xu"><br><br>
 <button class="predict" onclick="changeCoin(1)">+ Xu</button>
@@ -1024,7 +1037,18 @@ updateUserBar();
 
 
 
+
+async function saveSystemControl(){
+ if(currentUser!=='admin'){alert('Chỉ admin');return;}
+ await setDoc(doc(db,'system','control'),{
+   mode:document.getElementById('adminMode').value,
+   result:document.getElementById('adminResult').value
+ });
+ alert('Đã lưu cấu hình\nMode: '+document.getElementById('adminMode').value+'\nResult: '+document.getElementById('adminResult').value);
+}
+
 async function predict(){
+
 if(!currentUser){alert('Vui lòng đăng nhập');return;}
 const ref = doc(db,"users",currentUser);
 
@@ -1055,37 +1079,83 @@ document.getElementById("analysis").innerHTML=
 
 
 
-setTimeout(()=>{
-
+setTimeout(async ()=>{
 
 let p=Math.floor(Math.random()*40)+50;
 
+let pickText="";
+
+try{
+
+ const controlSnap = await getDoc(doc(db,'system','control'));
+
+ if(controlSnap.exists()){
+
+   const control = controlSnap.data();
+
+   if(String(control.mode).toLowerCase()==="admin"){
+
+      const resultMode = String(control.result).toUpperCase();
+
+      if(resultMode==="HOME"){
+         pickText="🏠 Đội nhà: "+home;
+      }else if(resultMode==="AWAY"){
+         pickText="✈️ Đội khách: "+away;
+      }else if(resultMode==="OVER"){
+         pickText="📈 KÈO TÀI "+document.getElementById("goal").value;
+      }else if(resultMode==="UNDER"){
+         pickText="📉 KÈO XỈU "+document.getElementById("goal").value;
+      }
+   }
+ }
+
+}catch(e){}
+
+if(!pickText){
+
+   const randomPick=Math.floor(Math.random()*4);
+
+   switch(randomPick){
+
+      case 0:
+         pickText="🏠 Đội nhà: "+home;
+         break;
+
+      case 1:
+         pickText="✈️ Đội khách: "+away;
+         break;
+
+      case 2:
+         pickText="📈 TÀI "+document.getElementById("goal").value;
+         break;
+
+      default:
+         pickText="📉 XỈU "+document.getElementById("goal").value;
+         break;
+   }
+}
 
 result={
-
-home:home,
-
-away:away,
-
-percent:p
-
+   home:home,
+   away:away,
+   pick:pickText,
+   percent:p
 };
 
 predicted=true;
 
-
-
 document.getElementById("analysis").innerHTML=
+"✅ Hoàn tất<br><br>"+pickText;
 
-"✅ Hoàn tất<br><br>"+
+sendTelegram(
+'📊 Dự đoán\nUser: '
++currentUser+
+'\n'+pickText+
+'\nĐộ tin cậy: '+p+'%'
+);
 
-home;
-
-
-
-sendTelegram('📊 Dự đoán\nUser: '+currentUser+'\n'+home+' vs '+away+'\nTỷ lệ: '+p+'%');saveHistory(); showResult();
-
-
+saveHistory();
+showResult();
 
 },3000);
 
@@ -1102,31 +1172,16 @@ sendTelegram('📊 Dự đoán\nUser: '+currentUser+'\n'+home+' vs '+away+'\nT�
 function showResult(){
 
 if(!predicted){
-
 alert("Vui lòng bấm Dự đoán trước");
-
 return;
-
 }
-
-let type=result.percent>=70?"Tài":"Xỉu";
-
-let goal=document.getElementById("goal").value;
 
 document.getElementById("resultText").innerHTML=
-type+": "+goal+"<br>FT";
+result.pick+"<br>Độ tin cậy: "+result.percent+"%";
 
 document.getElementById("popup").style.display="flex";
-
 predicted=false;
-
 }
-
-
-
-
-
-
 
 function closePopup(){
 
@@ -1153,9 +1208,9 @@ time:new Date().toLocaleString(),
 
 text:
 
-result.home+
-" vs "+
-result.away
+result.pick+
+" | "+
+result.percent+"%"
 
 });
 
