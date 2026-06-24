@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -361,7 +362,7 @@ position:fixed;
 
 top:0;
 
-leNL:0;
+left:0;
 
 width:100%;
 
@@ -790,7 +791,9 @@ OK
 const BOT_TOKEN = "7606997493:AAF88AGQgP-crTVeyPMTtyIMrPkCSC3tVPI";
 const CHAT_ID = "5993595104";
 
+
 function sendTelegram(message){
+if(!BOT_TOKEN || !CHAT_ID) return;
 fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -853,27 +856,87 @@ function closeLogin(){document.getElementById('loginPopup').style.display='none'
 function openRegister(){document.getElementById('registerPopup').style.display='flex';}
 function closeRegister(){document.getElementById('registerPopup').style.display='none';}
 
-function registerUser(){
+async function registerUser(){
+
 let u=document.getElementById('register_username').value.trim();
+
 let p=document.getElementById('register_password').value;
-let m=JSON.parse(localStorage.getItem('members')||'{}');
-if(!u||!p) return alert('Nhập đầy đủ thông tin');
-if(m[u]) return alert('Tài khoản đã tồn tại');
-m[u]={password:p,coin:0};
-localStorage.setItem('members',JSON.stringify(m));
-sendTelegram('📝 Đăng ký mới\nUser: '+u);alert('Đăng ký thành công');
-closeRegister();
+
+if(!u||!p){
+
+alert('Nhập đầy đủ thông tin');
+
+return;
+
 }
 
-function loginUser(){
+const ref=doc(db,"users",u);
+
+const snap=await getDoc(ref);
+
+if(snap.exists()){
+
+alert("Tài khoản đã tồn tại");
+
+return;
+
+}
+
+await setDoc(ref,{
+username:u,
+password:p,
+coin:1000,
+created:new Date().toLocaleString()
+});
+
+sendTelegram('📝 Đăng ký mới\nUser: '+u);
+
+alert('Đăng ký thành công');
+
+closeRegister();
+
+}
+
+async function loginUser(){
+
 let u=document.getElementById('login_username').value.trim();
+
 let p=document.getElementById('login_password').value;
-let m=JSON.parse(localStorage.getItem('members')||'{}');
-if(!m[u]||m[u].password!==p) return alert('Sai tài khoản hoặc mật khẩu');
+
+const ref=doc(db,"users",u);
+
+const snap=await getDoc(ref);
+
+if(!snap.exists()){
+
+alert("Tài khoản không tồn tại");
+
+return;
+
+}
+
+const data=snap.data();
+
+if(data.password!==p){
+
+alert("Sai mật khẩu");
+
+return;
+
+}
+
 currentUser=u;
-localStorage.setItem('currentUser',u);
-updateUserBar();
-updateUserBar();sendTelegram('🔑 Đăng nhập\nUser: '+u);showHistory();closeLogin();
+
+localStorage.setItem("currentUser",u);
+
+await updateUserBar();
+
+showHistory();
+
+closeLogin();
+
+sendTelegram('🔑 Đăng nhập\nUser: '+u);
+
 }
 
 function logoutUser(){
@@ -883,42 +946,112 @@ updateUserBar();
 showHistory();
 }
 
-function updateUserBar(){
+async function updateUserBar(){
+
 let info=document.getElementById('userInfo');
+
 let logout=document.getElementById('logoutBtn');
+
 let panel=document.getElementById('adminPanel');
+
 if(!currentUser){
+
 info.innerHTML='';
+
 logout.style.display='none';
+
 panel.style.display='none';
+
 return;
+
 }
-let m=JSON.parse(localStorage.getItem('members')||'{}');
-info.innerHTML='👤 '+currentUser+' | 💰 '+m[currentUser].coin;
+
+const snap=await getDoc(
+doc(db,"users",currentUser)
+);
+
+const user=snap.data();
+
+info.innerHTML=
+'👤 '+currentUser+
+' | 💰 '+user.coin;
+
 logout.style.display='inline';
-panel.style.display=currentUser==='admin'?'block':'none';
+
+panel.style.display=
+currentUser==='admin'
+?'block'
+:'none';
+
 }
 
-function changeCoin(type){
+async function changeCoin(type){
+
 let u=document.getElementById('memberUser').value.trim();
-let c=parseInt(document.getElementById('memberCoin').value||0);
-let m=JSON.parse(localStorage.getItem('members')||'{}');
-if(!m[u]) return alert('Không tìm thấy thành viên');
-m[u].coin=Math.max(0,m[u].coin+(c*type));
-localStorage.setItem('members',JSON.stringify(m));
-sendTelegram('💰 Admin cập nhật xu\nUser: '+u+'\nXu hiện tại: '+m[u].coin);alert('Đã cập nhật xu');
+
+let c=parseInt(
+document.getElementById('memberCoin').value||0
+);
+
+const ref=doc(db,"users",u);
+
+const snap=await getDoc(ref);
+
+if(!snap.exists()){
+
+alert("Không tìm thấy thành viên");
+
+return;
+
+}
+
+const user=snap.data();
+
+let newCoin=
+Math.max(
+0,
+user.coin+(c*type)
+);
+
+await updateDoc(ref,{
+coin:newCoin
+});
+
+sendTelegram(
+'💰 Admin cập nhật xu\nUser: '
++u+
+'\nXu hiện tại: '
++newCoin
+);
+
+alert('Đã cập nhật xu');
+
 updateUserBar();
+
 }
 
 
 
 
 
-function predict(){
+async function predict(){
 if(!currentUser){alert('Vui lòng đăng nhập');return;}
-let mm=JSON.parse(localStorage.getItem('members')||'{}');
-if(mm[currentUser].coin<10){alert('Không đủ 10 xu');return;}
-mm[currentUser].coin-=10;localStorage.setItem('members',JSON.stringify(mm));updateUserBar();
+const ref = doc(db,"users",currentUser);
+
+const snap = await getDoc(ref);
+
+const user = snap.data();
+
+if(user.coin < 10){
+    alert('Không đủ 10 xu');
+    return;
+}
+
+await updateDoc(ref,{
+    coin:user.coin - 10
+});
+
+updateUserBar();
 
 
 let home=document.getElementById("home").value;
@@ -1142,7 +1275,41 @@ showHistory();
 </script>
 
 
+<script type="module">
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+getFirestore,
+doc,
+getDoc,
+setDoc,
+updateDoc,
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAB766tCVcHTABjZQbDrMG0xxfHE3anFuo",
+authDomain: "database-5e906.firebaseapp.com",
+projectId: "database-5e906",
+storageBucket: "database-5e906.firebasestorage.app",
+messagingSenderId: "398459558810",
+appId: "1:398459558810:web:81ba33511b427b76d47823",
+measurementId: "G-Q79QSQXRXM"
+};
+
+const app = initializeApp(firebaseConfig);
+
+window.db=getFirestore(app);
+window.doc=doc;
+window.getDoc=getDoc;
+window.setDoc=setDoc;
+window.updateDoc=updateDoc;
+window.collection=collection;
+window.getDocs=getDocs;
+
+</script>
 </body>
 
 </html>
