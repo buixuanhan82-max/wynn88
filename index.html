@@ -1,214 +1,669 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>FT BET</title>
 
+
 <style>
+
+
 *{
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family:Arial,sans-serif;
 }
+
+
+
+html,body{
+
+width:100%;
+
+min-height:100%;
+
+overflow-x:hidden;
+
+}
+
+
 
 body{
-    margin:0;
-    min-height:100vh;
-    background:
-    linear-gradient(rgba(5,5,20,.7),rgba(5,5,20,.85)),
-    url("https://images.unsplash.com/photo-1579952363873-27f3bade9f55");
-    background-size:cover;
-    background-position:center;
-    color:white;
+
+background:
+linear-gradient(
+rgba(5,5,20,.75),
+rgba(5,5,20,.9)
+),
+url("https://images.unsplash.com/photo-1579952363873-27f3bade9f55");
+
+
+background-size:cover;
+
+background-position:center;
+
+background-attachment:fixed;
+
+color:white;
+
 }
 
 
-/* MENU */
+
+
+
+/* HEADER */
+
+
 header{
-    margin:20px;
-    padding:20px 35px;
-    border-radius:20px;
-    background:rgba(20,20,40,.65);
-    backdrop-filter:blur(10px);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border:1px solid #444;
+
+
+width:calc(100% - 40px);
+
+margin:20px auto;
+
+
+padding:clamp(15px,3vw,25px);
+
+
+border-radius:20px;
+
+
+background:rgba(20,20,40,.75);
+
+
+backdrop-filter:blur(12px);
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+align-items:center;
+
+
+border:1px solid #444;
+
+
 }
+
+
 
 .logo{
-    font-size:32px;
-    font-weight:bold;
-    color:#ff3344;
+
+
+font-size:clamp(24px,5vw,38px);
+
+font-weight:bold;
+
+color:#ff3344;
+
+
 }
+
+
+
+
+
+nav{
+
+
+display:flex;
+
+gap:20px;
+
+flex-wrap:wrap;
+
+
+}
+
+
 
 nav span{
-    margin:0 20px;
-    color:#ccc;
+
+
+font-size:clamp(13px,2vw,18px);
+
+color:#ddd;
+
+
 }
 
 
-/* MAIN */
+
+
+
+
 .container{
-    max-width:900px;
-    margin:auto;
+
+
+width:min(95%,900px);
+
+margin:auto;
+
+padding:10px;
+
+
 }
+
+
+
+
+
 
 
 .label{
-    display:inline-block;
-    padding:10px 15px;
-    background:#303044;
-    border-radius:8px;
-    margin-top:20px;
+
+
+margin-top:20px;
+
+
+display:inline-block;
+
+
+padding:10px 15px;
+
+
+background:#303044;
+
+
+border-radius:8px;
+
+
+font-size:clamp(14px,2vw,18px);
+
+
 }
+
+
+
 
 
 .row{
-    display:grid;
-    grid-template-columns:2fr 1fr .7fr;
-    gap:15px;
-    margin-top:8px;
+
+
+display:grid;
+
+
+grid-template-columns:
+
+2fr 1fr .7fr;
+
+
+gap:12px;
+
+
+margin-top:10px;
+
+
 }
+
+
+
 
 
 .box{
-    padding:22px;
-    background:rgba(255,255,255,.15);
-    border:1px solid #ff3344;
-    border-radius:12px;
-    backdrop-filter:blur(8px);
-    font-size:22px;
+
+
+width:100%;
+
+
+min-height:55px;
+
+
+padding:clamp(12px,2vw,22px);
+
+
+font-size:clamp(15px,2vw,22px);
+
+
+color:white;
+
+
+background:rgba(255,255,255,.15);
+
+
+border:1px solid #ff3344;
+
+
+border-radius:12px;
+
+
+backdrop-filter:blur(8px);
+
+
 }
+
+
+
+
+input.box{
+
+
+outline:none;
+
+
+}
+
+
+
 
 
 /* TAI XIU */
-.kèo{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
+
+
+.keo{
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(250px,1fr));
+
+
+gap:20px;
+
+
 }
+
+
+
+
+
+
+
+/* MATRIX */
 
 
 .matrix{
-    margin-top:25px;
-    height:250px;
-    background:black;
-    border:1px solid #555;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#00ff44;
-    font-family:monospace;
-    font-size:18px;
-    position:relative;
+
+
+height:clamp(180px,35vw,300px);
+
+
+margin-top:30px;
+
+
+background:black;
+
+
+border-radius:15px;
+
+
+overflow:hidden;
+
+
+position:relative;
+
+
+display:flex;
+
+
+align-items:center;
+
+
+justify-content:center;
+
+
+border:1px solid #555;
+
+
 }
+
+
+
 
 
 .code{
-    opacity:.7;
-    position:absolute;
-    width:100%;
-    height:100%;
-    overflow:hidden;
+
+
+position:absolute;
+
+
+width:100%;
+
+
+height:100%;
+
+
+color:#00ff55;
+
+
+font-family:monospace;
+
+
+font-size:clamp(12px,2vw,18px);
+
+
+line-height:28px;
+
+
+opacity:.7;
+
+
+animation:move 5s linear infinite;
+
+
 }
+
+
+
+
+@keyframes move{
+
+
+from{
+
+transform:translateY(0);
+
+}
+
+
+to{
+
+transform:translateY(-120px);
+
+}
+
+
+}
+
+
+
+
 
 
 .center{
-    z-index:2;
-    color:white;
-    font-size:28px;
-    font-weight:bold;
+
+
+z-index:2;
+
+
+font-size:clamp(18px,4vw,30px);
+
+
+text-align:center;
+
+
 }
+
+
+
+
+
 
 
 /* BUTTON */
+
+
 .buttons{
-    display:flex;
-    gap:30px;
-    margin-top:30px;
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(200px,1fr));
+
+
+gap:20px;
+
+
+margin-top:30px;
+
+
 }
+
+
 
 
 button{
-    flex:1;
-    padding:20px;
-    border:none;
-    border-radius:12px;
-    color:white;
-    font-size:22px;
-    cursor:pointer;
+
+
+padding:20px;
+
+
+font-size:clamp(16px,2vw,22px);
+
+
+border:none;
+
+
+border-radius:12px;
+
+
+color:white;
+
+
+cursor:pointer;
+
+
 }
+
+
+
 
 
 .predict{
-    background:#00994d;
+
+background:#00994d;
+
 }
+
 
 
 .result{
-    background:#d7193f;
+
+background:#d7193f;
+
 }
+
+
+
+
+
+.history{
+
+
+margin-top:30px;
+
+
+background:rgba(0,0,0,.5);
+
+
+padding:20px;
+
+
+border-radius:15px;
+
+
+}
+
+
+
 
 
 footer{
-    margin-top:50px;
-    padding:20px;
-    border-top:1px solid #444;
-    display:flex;
-    justify-content:space-between;
+
+
+margin-top:40px;
+
+
+padding:20px;
+
+
+border-top:1px solid #555;
+
+
+display:flex;
+
+
+justify-content:space-between;
+
+
+flex-wrap:wrap;
+
+
 }
 
 
-@media(max-width:700px){
 
-.row{
-grid-template-columns:1fr;
-}
+
+
+
+
+
+
+/* MOBILE */
+
+
+@media(max-width:600px){
+
 
 header{
+
+
 flex-direction:column;
-}
+
+
+text-align:center;
+
 
 }
+
+
+
+.row{
+
+
+grid-template-columns:1fr;
+
+
+}
+
+
+
+nav{
+
+
+justify-content:center;
+
+
+}
+
+
+}
+
+
+
+
+/* TABLET */
+
+
+@media(min-width:601px)
+and
+(max-width:1000px){
+
+
+.row{
+
+
+grid-template-columns:2fr 1fr;
+
+
+}
+
+
+}
+
+
+
+
 </style>
 
+
 </head>
+
+
 
 
 <body>
 
 
+
+
 <header>
 
+
 <div class="logo">
+
 ⚡ FT BET
+
 </div>
 
+
 <nav>
+
 <span>Trang chủ</span>
+
 <span>Lịch sử</span>
+
 <span>Kết quả</span>
+
 <span>Hướng dẫn</span>
+
 </nav>
 
+
 </header>
+
+
+
 
 
 
 <div class="container">
 
 
+
+
+
 <div class="label">
 Đội nhà
 </div>
 
+
 <div class="row">
-<div class="box">Paris Saint Germain</div>
-<div class="box">-0.25</div>
-<div class="box">FT</div>
+
+
+<input class="box" id="home"
+value="Paris Saint Germain">
+
+
+<input class="box"
+value="-0.25">
+
+
+<input class="box"
+value="FT">
+
+
 </div>
+
+
+
+
 
 
 <div class="label">
@@ -217,79 +672,119 @@ flex-direction:column;
 
 
 <div class="row">
-<div class="box">Arsenal</div>
-<div class="box">+0.25</div>
-<div class="box">FT</div>
+
+
+<input class="box" id="away"
+value="Arsenal">
+
+
+<input class="box"
+value="+0.25">
+
+
+<input class="box"
+value="FT">
+
+
 </div>
 
 
 
 
-<div class="kèo">
+
+
+
+
+<div class="keo">
+
 
 <div>
 
+
 <div class="label">
-Tài:
+Tài
 </div>
 
-<div class="row">
-<div class="box">2.25</div>
-<div class="box">FT</div>
-</div>
+
+<input class="box"
+id="over"
+value="2.25">
+
 
 </div>
+
+
 
 
 <div>
 
+
 <div class="label">
-Xỉu:
-</div>
-
-<div class="row">
-<div class="box">2.25</div>
-<div class="box">FT</div>
-</div>
-
+Xỉu
 </div>
 
 
+<input class="box"
+value="2.25">
+
+
 </div>
+
+
+</div>
+
+
+
 
 
 
 
 <div class="matrix">
 
+
 <div class="code">
 
-010101001101010101<br>
-101010101001010101<br>
-001101010101001010<br>
-101010101001010101<br>
-001010101010101010<br>
+0101010101010101<br>
+1010101010101010<br>
+0101010101010101<br>
+1010101010101010<br>
 
 </div>
 
-<div class="center">
-Đang phân tích...
-</div>
+
+<div class="center" id="analysis">
+
+Chờ phân tích...
 
 </div>
+
+
+</div>
+
+
+
+
 
 
 
 
 <div class="buttons">
 
-<button class="predict">
+
+<button class="predict"
+onclick="predict()">
+
 📊 Dự đoán
+
 </button>
 
 
-<button class="result">
-🅰️ Hiển thị kết quả
+
+<button class="result"
+onclick="showResult()">
+
+🅰️ Kết quả
+
 </button>
 
 
@@ -297,15 +792,49 @@ Xỉu:
 
 
 
+
+
+
+
+<div class="history">
+
+
+<h3>
+
+📜 Lịch sử
+
+</h3>
+
+
+<div id="history">
+
+Chưa có dữ liệu
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
 <footer>
 
+
 <span>
-© 2024 FT BET. All rights reserved.
+
+© 2026 FT BET
+
 </span>
 
 
-<span>
-🕒 12:19 PM
+<span id="clock">
+
+🕒
+
 </span>
 
 
@@ -313,8 +842,169 @@ Xỉu:
 
 
 
-</div>
+
+
+
+
+
+
+
+<script>
+
+
+let resultText="";
+
+
+
+
+function predict(){
+
+
+
+let home=
+document.getElementById("home").value;
+
+
+
+let away=
+document.getElementById("away").value;
+
+
+
+let box=
+document.getElementById("analysis");
+
+
+
+box.innerHTML=
+"⏳ Đang phân tích<br>"+
+home+" VS "+away;
+
+
+
+setTimeout(()=>{
+
+
+
+let a =
+Math.floor(Math.random()*40)+50;
+
+
+let b =
+100-a;
+
+
+
+resultText=
+
+home+" : "+a+"%<br>"+
+away+" : "+b+"%";
+
+
+
+box.innerHTML=
+"✅ Hoàn tất<br><br>"+
+resultText;
+
+
+
+save();
+
+
+
+},3000);
+
+
+
+}
+
+
+
+
+
+function showResult(){
+
+
+if(resultText==""){
+
+
+alert("Chưa có dự đoán");
+
+
+return;
+
+
+}
+
+
+
+alert(
+resultText.replace("<br>","\n")
+);
+
+
+
+}
+
+
+
+
+
+function save(){
+
+
+
+let h =
+document.getElementById("history");
+
+
+
+h.innerHTML=
+
+new Date()
+.toLocaleTimeString()
+
++"<br>"+
+
+resultText
+
++"<hr>"+
+
+h.innerHTML;
+
+
+
+}
+
+
+
+
+
+
+
+setInterval(()=>{
+
+
+document.getElementById("clock")
+.innerHTML=
+
+"🕒 "+
+
+new Date()
+.toLocaleTimeString();
+
+
+
+},1000);
+
+
+
+
+</script>
+
+
 
 
 </body>
+
 </html>
