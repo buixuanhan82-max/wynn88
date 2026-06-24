@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -644,14 +643,6 @@ onclick="predict()">
 
 
 
-<button class="result"
-onclick="showResult()">
-
-🅰️ Hiển thị kết quả
-
-</button>
-
-
 </div>
 
 
@@ -790,7 +781,6 @@ OK
 
 const BOT_TOKEN = "7606997493:AAF88AGQgP-crTVeyPMTtyIMrPkCSC3tVPI";
 const CHAT_ID = "5993595104";
-
 
 function sendTelegram(message){
 if(!BOT_TOKEN || !CHAT_ID) return;
@@ -1093,7 +1083,7 @@ home+" "+p+"%";
 
 
 
-sendTelegram('📊 Dự đoán\nUser: '+currentUser+'\n'+home+' vs '+away+'\nTỷ lệ: '+p+'%');saveHistory();
+sendTelegram('📊 Dự đoán\nUser: '+currentUser+'\n'+home+' vs '+away+'\nTỷ lệ: '+p+'%');saveHistory(); showResult();
 
 
 
