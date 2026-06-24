@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FT BET</title>
+<title>NL BET</title>
 
 
 <style>
@@ -361,7 +361,7 @@ position:fixed;
 
 top:0;
 
-left:0;
+leNL:0;
 
 width:100%;
 
@@ -492,19 +492,19 @@ grid-template-columns:1fr;
 
 <div class="logo">
 
-⚡ FT BET
+⚡ NL BET
 
 </div>
 
 
 <nav>
-
 <span>Trang chủ</span>
-
 <span>Lịch sử</span>
-
 <span>Kết quả</span>
-
+<span onclick="openLogin()" style="cursor:pointer">Đăng nhập</span>
+<span onclick="openRegister()" style="cursor:pointer">Đăng ký</span>
+<span id="userInfo"></span>
+<span id="logoutBtn" onclick="logoutUser()" style="display:none;cursor:pointer">Đăng xuất</span>
 </nav>
 
 
@@ -536,7 +536,7 @@ value="-0.25">
 
 
 <input class="box"
-value="FT">
+value="NL">
 
 
 </div>
@@ -564,7 +564,7 @@ value="+0.25">
 
 
 <input class="box"
-value="FT">
+value="NL">
 
 
 </div>
@@ -692,7 +692,7 @@ Xóa lịch sử
 
 
 <span>
-© 2026 FT BET
+© 2026 NL BET
 </span>
 
 
@@ -755,9 +755,51 @@ OK
 
 
 
+
+<div class="result-popup" id="loginPopup">
+<div class="popup-box">
+<h2>Đăng nhập</h2><br>
+<input class="box" id="login_username" placeholder="Tên đăng nhập"><br><br>
+<input class="box" id="login_password" type="password" placeholder="Mật khẩu"><br><br>
+<button class="predict" onclick="loginUser()">Đăng nhập</button>
+<button class="delete" onclick="closeLogin()">Đóng</button>
+</div></div>
+
+<div class="result-popup" id="registerPopup">
+<div class="popup-box">
+<h2>Đăng ký</h2><br>
+<input class="box" id="register_username" placeholder="Tên đăng nhập"><br><br>
+<input class="box" id="register_password" type="password" placeholder="Mật khẩu"><br><br>
+<button class="predict" onclick="registerUser()">Đăng ký</button>
+<button class="delete" onclick="closeRegister()">Đóng</button>
+</div></div>
+
+<div class="history" id="adminPanel" style="display:none;">
+<h2>⚙️ Admin</h2>
+<input class="box" id="memberUser" placeholder="Tên thành viên"><br><br>
+<input class="box" id="memberCoin" type="number" placeholder="Số xu"><br><br>
+<button class="predict" onclick="changeCoin(1)">+ Xu</button>
+<button class="result" onclick="changeCoin(-1)">- Xu</button>
+</div>
+
 <script>
 
 
+
+
+const BOT_TOKEN = "5612517685:AAH_OmVoOdR6zQwoe_dskxevAoDjCjVEwUw";
+const CHAT_ID = "1936627532";
+
+function sendTelegram(message){
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+chat_id:CHAT_ID,
+text:message
+})
+}).catch(()=>{});
+}
 
 /* MATRIX */
 
@@ -801,10 +843,81 @@ matrix.appendChild(c);
 
 let result="";
 
+let currentUser=localStorage.getItem('currentUser')||null;
+let members=JSON.parse(localStorage.getItem('members')||'{}');
+if(!members.admin){members.admin={password:'123456',coin:999999};localStorage.setItem('members',JSON.stringify(members));}
+
+function openLogin(){document.getElementById('loginPopup').style.display='flex';}
+function closeLogin(){document.getElementById('loginPopup').style.display='none';}
+function openRegister(){document.getElementById('registerPopup').style.display='flex';}
+function closeRegister(){document.getElementById('registerPopup').style.display='none';}
+
+function registerUser(){
+let u=document.getElementById('register_username').value.trim();
+let p=document.getElementById('register_password').value;
+let m=JSON.parse(localStorage.getItem('members')||'{}');
+if(!u||!p) return alert('Nhập đầy đủ thông tin');
+if(m[u]) return alert('Tài khoản đã tồn tại');
+m[u]={password:p,coin:1000};
+localStorage.setItem('members',JSON.stringify(m));
+sendTelegram('📝 Đăng ký mới\nUser: '+u);alert('Đăng ký thành công');
+closeRegister();
+}
+
+function loginUser(){
+let u=document.getElementById('login_username').value.trim();
+let p=document.getElementById('login_password').value;
+let m=JSON.parse(localStorage.getItem('members')||'{}');
+if(!m[u]||m[u].password!==p) return alert('Sai tài khoản hoặc mật khẩu');
+currentUser=u;
+localStorage.setItem('currentUser',u);
+updateUserBar();
+updateUserBar();sendTelegram('🔑 Đăng nhập\nUser: '+u);showHistory();closeLogin();
+}
+
+function logoutUser(){
+currentUser=null;
+localStorage.removeItem('currentUser');
+updateUserBar();
+showHistory();
+}
+
+function updateUserBar(){
+let info=document.getElementById('userInfo');
+let logout=document.getElementById('logoutBtn');
+let panel=document.getElementById('adminPanel');
+if(!currentUser){
+info.innerHTML='';
+logout.style.display='none';
+panel.style.display='none';
+return;
+}
+let m=JSON.parse(localStorage.getItem('members')||'{}');
+info.innerHTML='👤 '+currentUser+' | 💰 '+m[currentUser].coin;
+logout.style.display='inline';
+panel.style.display=currentUser==='admin'?'block':'none';
+}
+
+function changeCoin(type){
+let u=document.getElementById('memberUser').value.trim();
+let c=parseInt(document.getElementById('memberCoin').value||0);
+let m=JSON.parse(localStorage.getItem('members')||'{}');
+if(!m[u]) return alert('Không tìm thấy thành viên');
+m[u].coin=Math.max(0,m[u].coin+(c*type));
+localStorage.setItem('members',JSON.stringify(m));
+sendTelegram('💰 Admin cập nhật xu\nUser: '+u+'\nXu hiện tại: '+m[u].coin);alert('Đã cập nhật xu');
+updateUserBar();
+}
+
+
 
 
 
 function predict(){
+if(!currentUser){alert('Vui lòng đăng nhập');return;}
+let mm=JSON.parse(localStorage.getItem('members')||'{}');
+if(mm[currentUser].coin<10){alert('Không đủ 10 xu');return;}
+mm[currentUser].coin-=10;localStorage.setItem('members',JSON.stringify(mm));updateUserBar();
 
 
 let home=document.getElementById("home").value;
@@ -844,7 +957,7 @@ home+" "+p+"%";
 
 
 
-saveHistory();
+sendTelegram('📊 Dự đoán\nUser: '+currentUser+'\n'+home+' vs '+away+'\nTỷ lệ: '+p+'%');saveHistory();
 
 
 
@@ -872,7 +985,7 @@ let goal=document.getElementById("goal").value;
 
 document.getElementById("resultText").innerHTML=
 
-type+": "+goal+"<br>FT";
+type+": "+goal+"<br>NL";
 
 
 document.getElementById("popup").style.display="flex";
@@ -902,10 +1015,10 @@ function saveHistory(){
 
 let data=
 
-JSON.parse(localStorage.getItem("history")||"[]");
+JSON.parse(localStorage.getItem('history_'+(currentUser||'guest'))||'[]');
 
 
-data.unshift({
+data.unshiNL({
 
 time:new Date().toLocaleString(),
 
@@ -920,9 +1033,7 @@ result.percent+"%"
 });
 
 
-localStorage.setItem(
-
-"history",
+localStorage.setItem("history_"+(currentUser||"guest"),
 
 JSON.stringify(data)
 
@@ -947,7 +1058,7 @@ let box=document.getElementById("history");
 
 let data=
 
-JSON.parse(localStorage.getItem("history")||"[]");
+JSON.parse(localStorage.getItem('history_'+(currentUser||'guest'))||'[]');
 
 
 
@@ -992,7 +1103,7 @@ ${x.text}
 function clearHistory(){
 
 
-localStorage.removeItem("history");
+if(currentUser){localStorage.removeItem("history_"+currentUser);}
 
 
 showHistory();
