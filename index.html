@@ -11,7 +11,6 @@
 
 <style>
 
-
 *{
 box-sizing:border-box;
 margin:0;
@@ -26,13 +25,12 @@ min-height:100vh;
 
 background:
 linear-gradient(
-rgba(5,5,20,.75),
-rgba(5,5,20,.9)
+rgba(5,5,20,.8),
+rgba(5,5,20,.95)
 ),
 url("https://images.unsplash.com/photo-1579952363873-27f3bade9f55");
 
 background-size:cover;
-background-position:center;
 
 color:white;
 
@@ -40,9 +38,7 @@ color:white;
 
 
 
-
 header{
-
 
 width:calc(100% - 40px);
 
@@ -50,15 +46,9 @@ margin:20px auto;
 
 padding:20px;
 
+background:rgba(20,20,40,.75);
 
 border-radius:20px;
-
-
-background:rgba(20,20,40,.7);
-
-
-backdrop-filter:blur(10px);
-
 
 display:flex;
 
@@ -66,13 +56,11 @@ justify-content:space-between;
 
 align-items:center;
 
-
 }
 
 
 
 .logo{
-
 
 font-size:35px;
 
@@ -84,9 +72,7 @@ color:#ff3344;
 
 
 
-
 nav span{
-
 
 margin:0 15px;
 
@@ -96,49 +82,34 @@ color:#ddd;
 
 
 
-
-
 .container{
-
 
 width:min(95%,900px);
 
 margin:auto;
 
-
 }
-
-
 
 
 
 
 .label{
 
+display:inline-block;
 
 margin-top:20px;
 
-
-display:inline-block;
-
-
 padding:10px 15px;
-
 
 background:#303044;
 
-
 border-radius:8px;
-
 
 }
 
 
 
-
-
 .row{
-
 
 display:grid;
 
@@ -148,7 +119,6 @@ gap:12px;
 
 margin-top:10px;
 
-
 }
 
 
@@ -156,56 +126,31 @@ margin-top:10px;
 
 .box{
 
-
 width:100%;
-
 
 padding:20px;
 
-
 font-size:20px;
-
 
 color:white;
 
-
 background:rgba(255,255,255,.15);
-
 
 border:1px solid #ff3344;
 
-
 border-radius:12px;
 
-
 }
-
-
-
-
-input.box{
-
-outline:none;
-
-}
-
-
 
 
 
 .keo{
 
-
 display:grid;
 
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(250px,1fr));
-
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 
 gap:20px;
-
 
 }
 
@@ -218,92 +163,61 @@ gap:20px;
 
 .matrix{
 
-
 height:280px;
-
 
 margin-top:30px;
 
-
 background:black;
-
-
-border:1px solid #333;
-
 
 border-radius:15px;
 
-
 overflow:hidden;
-
 
 position:relative;
 
-
 display:flex;
-
-
-justify-content:center;
-
 
 align-items:center;
 
+justify-content:center;
+
+border:1px solid #555;
 
 }
-
-
 
 
 
 .code{
 
-
 position:absolute;
-
 
 width:100%;
 
-
 height:100%;
-
 
 display:flex;
 
-
 justify-content:center;
-
 
 gap:15px;
 
-
-overflow:hidden;
-
-
 color:#00ff44;
-
 
 font-family:monospace;
 
-
 font-size:14px;
-
-
-line-height:18px;
-
 
 opacity:.8;
 
+overflow:hidden;
 
 }
 
 
 
-
 .column{
 
-
 animation:fall 3s linear infinite;
-
 
 }
 
@@ -311,44 +225,29 @@ animation:fall 3s linear infinite;
 
 @keyframes fall{
 
-
 from{
 
-
-transform:translateY(-120%);
-
+transform:translateY(-100%);
 
 }
-
 
 to{
 
-
-transform:translateY(120%);
-
+transform:translateY(100%);
 
 }
 
-
 }
-
 
 
 
 .center{
 
-
 z-index:2;
-
 
 font-size:30px;
 
-
-font-weight:bold;
-
-
 text-align:center;
-
 
 }
 
@@ -358,50 +257,33 @@ text-align:center;
 
 .buttons{
 
-
 display:grid;
 
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(200px,1fr));
-
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 
 gap:20px;
 
-
 margin-top:30px;
 
-
 }
-
-
 
 
 
 button{
 
-
 padding:20px;
-
-
-font-size:22px;
-
 
 border:none;
 
-
 border-radius:12px;
 
+font-size:20px;
 
 color:white;
 
-
 cursor:pointer;
 
-
 }
-
 
 
 
@@ -410,7 +292,6 @@ cursor:pointer;
 background:#00994d;
 
 }
-
 
 
 .result{
@@ -425,18 +306,13 @@ background:#d7193f;
 
 .history{
 
-
 margin-top:30px;
-
 
 background:rgba(0,0,0,.5);
 
-
 padding:20px;
 
-
 border-radius:15px;
-
 
 }
 
@@ -446,24 +322,150 @@ border-radius:15px;
 
 footer{
 
-
 margin-top:40px;
-
 
 padding:20px;
 
-
 border-top:1px solid #555;
-
 
 display:flex;
 
-
 justify-content:space-between;
+
+}
+
+
+
+
+/* POPUP KẾT QUẢ */
+
+
+.result-popup{
+
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+
+background:rgba(0,0,0,.75);
+
+
+display:none;
+
+
+align-items:center;
+
+justify-content:center;
+
+
+z-index:999;
 
 
 }
 
+
+
+
+.popup-box{
+
+
+width:320px;
+
+
+padding:40px 20px;
+
+
+background:#1b1b20;
+
+
+border-radius:8px;
+
+
+text-align:center;
+
+
+}
+
+
+
+.check{
+
+
+width:80px;
+
+height:80px;
+
+margin:auto;
+
+
+border-radius:50%;
+
+
+border:5px solid #536d45;
+
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+
+font-size:55px;
+
+
+color:#a5ff7a;
+
+
+}
+
+
+
+.popup-box h2{
+
+margin-top:25px;
+
+font-size:26px;
+
+}
+
+
+
+.popup-box p{
+
+font-size:22px;
+
+font-weight:bold;
+
+line-height:35px;
+
+}
+
+
+
+.close-btn{
+
+
+margin-top:25px;
+
+
+padding:12px 40px;
+
+
+background:#198754;
+
+
+border-radius:5px;
+
+
+}
 
 
 
@@ -474,49 +476,21 @@ justify-content:space-between;
 
 header{
 
-
 flex-direction:column;
-
 
 gap:20px;
 
-
 }
-
 
 
 .row{
 
-
 grid-template-columns:1fr;
 
-
-}
-
-
-
-nav span{
-
-
-font-size:14px;
-
-
-}
-
-
-
-.center{
-
-
-font-size:22px;
-
-
 }
 
 
 }
-
-
 
 </style>
 
@@ -524,16 +498,12 @@ font-size:22px;
 </head>
 
 
-
-
-
-
 <body>
 
 
 
-<header>
 
+<header>
 
 <div class="logo">
 
@@ -550,8 +520,6 @@ font-size:22px;
 
 <span>Kết quả</span>
 
-<span>Hướng dẫn</span>
-
 </nav>
 
 
@@ -562,19 +530,13 @@ font-size:22px;
 
 
 
-
 <div class="container">
 
 
 
-
-
 <div class="label">
-
 Đội nhà
-
 </div>
-
 
 
 <div class="row">
@@ -606,8 +568,6 @@ value="FT">
 </div>
 
 
-
-
 <div class="row">
 
 
@@ -635,7 +595,6 @@ value="FT">
 
 <div>
 
-
 <div class="label">
 
 Tài
@@ -643,7 +602,7 @@ Tài
 </div>
 
 
-<input class="box"
+<input class="box" id="goal"
 value="2.25">
 
 
@@ -651,9 +610,7 @@ value="2.25">
 
 
 
-
 <div>
-
 
 <div class="label">
 
@@ -676,13 +633,10 @@ value="2.25">
 
 
 
-
-
 <div class="matrix">
 
 
 <div class="code" id="matrix"></div>
-
 
 
 <div class="center" id="analysis">
@@ -692,9 +646,7 @@ value="2.25">
 </div>
 
 
-
 </div>
-
 
 
 
@@ -720,6 +672,7 @@ onclick="showResult()">
 🅰️ Hiển thị kết quả
 
 </button>
+
 
 
 </div>
@@ -752,11 +705,14 @@ Chưa có
 
 
 
+
 <footer>
 
 
 <span>
+
 © 2026 FT BET
+
 </span>
 
 
@@ -776,8 +732,60 @@ Chưa có
 
 
 
-<script>
 
+<!-- POPUP -->
+
+
+<div class="result-popup" id="popup">
+
+
+<div class="popup-box">
+
+
+<div class="check">
+
+✓
+
+</div>
+
+
+<h2>
+
+Kết quả
+
+</h2>
+
+
+<p id="resultText">
+
+Xỉu: 2.25<br>
+FT
+
+</p>
+
+
+<button class="close-btn"
+onclick="closePopup()">
+
+OK
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script>
 
 
 /* MATRIX */
@@ -794,40 +802,29 @@ let chars =
 for(let i=0;i<45;i++){
 
 
-let col =
-document.createElement("div");
-
+let col=document.createElement("div");
 
 col.className="column";
 
 
-let text="";
+let txt="";
 
 
 for(let j=0;j<30;j++){
 
 
-text +=
-chars[
-Math.floor(
-Math.random()*chars.length
-)
-]
-+"<br>";
+txt+=chars[
+Math.floor(Math.random()*chars.length)
+]+"<br>";
 
 }
 
 
-
-col.innerHTML=text;
+col.innerHTML=txt;
 
 
 col.style.animationDuration =
 (2+Math.random()*4)+"s";
-
-
-col.style.animationDelay =
-Math.random()*3+"s";
 
 
 matrix.appendChild(col);
@@ -840,9 +837,7 @@ matrix.appendChild(col);
 
 
 
-
-let resultText="";
-
+let result="";
 
 
 
@@ -858,45 +853,31 @@ document.getElementById("away").value;
 
 
 
-let box =
-document.getElementById("analysis");
+document.getElementById("analysis")
+.innerHTML=
 
-
-
-box.innerHTML=
 "⏳<br>Đang phân tích<br>"+
 home+" VS "+away;
+
 
 
 
 setTimeout(()=>{
 
 
-let a =
+let percent =
 Math.floor(Math.random()*40)+50;
 
 
-let b =
-100-a;
+
+result =
+home+" : "+percent+"%";
 
 
+document.getElementById("analysis")
+.innerHTML=
 
-resultText =
-
-home+" : "+a+"% \n"+
-away+" : "+b+"%";
-
-
-
-box.innerHTML=
-
-"✅ Hoàn tất<br><br>"+
-
-resultText.replace("\n","<br>");
-
-
-
-save();
+"✅ Hoàn tất<br><br>"+result;
 
 
 
@@ -911,55 +892,58 @@ save();
 
 
 
+
 function showResult(){
 
 
-if(!resultText){
 
-alert("Chưa có dữ liệu");
+let type =
 
-return;
+Math.random()>0.5
 
-}
+?
 
+"Tài"
 
+:
 
-alert(resultText);
-
-
-}
+"Xỉu";
 
 
 
+let goal =
+
+document.getElementById("goal").value;
 
 
 
+document.getElementById("resultText")
+.innerHTML=
 
-function save(){
-
-
-let h =
-document.getElementById("history");
+type+": "+goal+"<br>FT";
 
 
-h.innerHTML =
 
-new Date()
-.toLocaleTimeString()
-
-+"<br>"+
-
-resultText.replace("\n","<br>")
-
-+"<hr>"+
-
-h.innerHTML;
+document.getElementById("popup")
+.style.display="flex";
 
 
 
 }
 
 
+
+
+
+
+function closePopup(){
+
+
+document.getElementById("popup")
+.style.display="none";
+
+
+}
 
 
 
@@ -969,17 +953,14 @@ setInterval(()=>{
 
 
 document.getElementById("clock")
-.innerHTML =
+.innerHTML=
 
 "🕒 "+
-
-new Date()
-.toLocaleTimeString();
+new Date().toLocaleTimeString();
 
 
 
 },1000);
-
 
 
 
