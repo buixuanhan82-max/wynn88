@@ -1024,7 +1024,7 @@ let data=
 JSON.parse(localStorage.getItem('history_'+(currentUser||'guest'))||'[]');
 
 
-data.unshiNL({
+data.unshift({
 
 time:new Date().toLocaleString(),
 
