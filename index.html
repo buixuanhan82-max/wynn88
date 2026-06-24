@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>FT BET</title>
@@ -21,20 +20,9 @@ font-family:Arial,sans-serif;
 }
 
 
-
-html,body{
-
-width:100%;
-
-min-height:100%;
-
-overflow-x:hidden;
-
-}
-
-
-
 body{
+
+min-height:100vh;
 
 background:
 linear-gradient(
@@ -43,22 +31,14 @@ rgba(5,5,20,.9)
 ),
 url("https://images.unsplash.com/photo-1579952363873-27f3bade9f55");
 
-
 background-size:cover;
-
 background-position:center;
-
-background-attachment:fixed;
 
 color:white;
 
 }
 
 
-
-
-
-/* HEADER */
 
 
 header{
@@ -68,29 +48,23 @@ width:calc(100% - 40px);
 
 margin:20px auto;
 
-
-padding:clamp(15px,3vw,25px);
+padding:20px;
 
 
 border-radius:20px;
 
 
-background:rgba(20,20,40,.75);
+background:rgba(20,20,40,.7);
 
 
-backdrop-filter:blur(12px);
+backdrop-filter:blur(10px);
 
 
 display:flex;
 
-
 justify-content:space-between;
 
-
 align-items:center;
-
-
-border:1px solid #444;
 
 
 }
@@ -100,43 +74,25 @@ border:1px solid #444;
 .logo{
 
 
-font-size:clamp(24px,5vw,38px);
+font-size:35px;
 
 font-weight:bold;
 
 color:#ff3344;
 
-
 }
 
-
-
-
-
-nav{
-
-
-display:flex;
-
-gap:20px;
-
-flex-wrap:wrap;
-
-
-}
 
 
 
 nav span{
 
 
-font-size:clamp(13px,2vw,18px);
+margin:0 15px;
 
 color:#ddd;
 
-
 }
-
 
 
 
@@ -149,11 +105,8 @@ width:min(95%,900px);
 
 margin:auto;
 
-padding:10px;
-
 
 }
-
 
 
 
@@ -178,9 +131,6 @@ background:#303044;
 border-radius:8px;
 
 
-font-size:clamp(14px,2vw,18px);
-
-
 }
 
 
@@ -192,20 +142,14 @@ font-size:clamp(14px,2vw,18px);
 
 display:grid;
 
-
-grid-template-columns:
-
-2fr 1fr .7fr;
-
+grid-template-columns:2fr 1fr .7fr;
 
 gap:12px;
-
 
 margin-top:10px;
 
 
 }
-
 
 
 
@@ -216,13 +160,10 @@ margin-top:10px;
 width:100%;
 
 
-min-height:55px;
+padding:20px;
 
 
-padding:clamp(12px,2vw,22px);
-
-
-font-size:clamp(15px,2vw,22px);
+font-size:20px;
 
 
 color:white;
@@ -237,9 +178,6 @@ border:1px solid #ff3344;
 border-radius:12px;
 
 
-backdrop-filter:blur(8px);
-
-
 }
 
 
@@ -247,17 +185,12 @@ backdrop-filter:blur(8px);
 
 input.box{
 
-
 outline:none;
-
 
 }
 
 
 
-
-
-/* TAI XIU */
 
 
 .keo{
@@ -280,21 +213,22 @@ gap:20px;
 
 
 
-
-
 /* MATRIX */
 
 
 .matrix{
 
 
-height:clamp(180px,35vw,300px);
+height:280px;
 
 
 margin-top:30px;
 
 
 background:black;
+
+
+border:1px solid #333;
 
 
 border-radius:15px;
@@ -309,13 +243,10 @@ position:relative;
 display:flex;
 
 
-align-items:center;
-
-
 justify-content:center;
 
 
-border:1px solid #555;
+align-items:center;
 
 
 }
@@ -336,22 +267,31 @@ width:100%;
 height:100%;
 
 
-color:#00ff55;
+display:flex;
+
+
+justify-content:center;
+
+
+gap:15px;
+
+
+overflow:hidden;
+
+
+color:#00ff44;
 
 
 font-family:monospace;
 
 
-font-size:clamp(12px,2vw,18px);
+font-size:14px;
 
 
-line-height:28px;
+line-height:18px;
 
 
-opacity:.7;
-
-
-animation:move 5s linear infinite;
+opacity:.8;
 
 
 }
@@ -359,26 +299,38 @@ animation:move 5s linear infinite;
 
 
 
-@keyframes move{
+.column{
+
+
+animation:fall 3s linear infinite;
+
+
+}
+
+
+
+@keyframes fall{
 
 
 from{
 
-transform:translateY(0);
+
+transform:translateY(-120%);
+
 
 }
 
 
 to{
 
-transform:translateY(-120px);
+
+transform:translateY(120%);
+
 
 }
 
 
 }
-
-
 
 
 
@@ -389,7 +341,10 @@ transform:translateY(-120px);
 z-index:2;
 
 
-font-size:clamp(18px,4vw,30px);
+font-size:30px;
+
+
+font-weight:bold;
 
 
 text-align:center;
@@ -399,11 +354,6 @@ text-align:center;
 
 
 
-
-
-
-
-/* BUTTON */
 
 
 .buttons{
@@ -428,13 +378,14 @@ margin-top:30px;
 
 
 
+
 button{
 
 
 padding:20px;
 
 
-font-size:clamp(16px,2vw,22px);
+font-size:22px;
 
 
 border:none;
@@ -450,7 +401,6 @@ cursor:pointer;
 
 
 }
-
 
 
 
@@ -512,20 +462,11 @@ display:flex;
 justify-content:space-between;
 
 
-flex-wrap:wrap;
-
-
 }
 
 
 
 
-
-
-
-
-
-/* MOBILE */
 
 
 @media(max-width:600px){
@@ -537,7 +478,7 @@ header{
 flex-direction:column;
 
 
-text-align:center;
+gap:20px;
 
 
 }
@@ -554,39 +495,26 @@ grid-template-columns:1fr;
 
 
 
-nav{
+nav span{
 
 
-justify-content:center;
-
-
-}
+font-size:14px;
 
 
 }
 
 
 
-
-/* TABLET */
-
-
-@media(min-width:601px)
-and
-(max-width:1000px){
+.center{
 
 
-.row{
-
-
-grid-template-columns:2fr 1fr;
+font-size:22px;
 
 
 }
 
 
 }
-
 
 
 
@@ -598,8 +526,9 @@ grid-template-columns:2fr 1fr;
 
 
 
-<body>
 
+
+<body>
 
 
 
@@ -633,6 +562,7 @@ grid-template-columns:2fr 1fr;
 
 
 
+
 <div class="container">
 
 
@@ -640,8 +570,11 @@ grid-template-columns:2fr 1fr;
 
 
 <div class="label">
+
 Đội nhà
+
 </div>
+
 
 
 <div class="row">
@@ -667,8 +600,12 @@ value="FT">
 
 
 <div class="label">
+
 Đội khách
+
 </div>
+
+
 
 
 <div class="row">
@@ -693,8 +630,6 @@ value="FT">
 
 
 
-
-
 <div class="keo">
 
 
@@ -702,12 +637,13 @@ value="FT">
 
 
 <div class="label">
+
 Tài
+
 </div>
 
 
 <input class="box"
-id="over"
 value="2.25">
 
 
@@ -720,7 +656,9 @@ value="2.25">
 
 
 <div class="label">
+
 Xỉu
+
 </div>
 
 
@@ -732,6 +670,7 @@ value="2.25">
 
 
 </div>
+
 
 
 
@@ -742,21 +681,16 @@ value="2.25">
 <div class="matrix">
 
 
-<div class="code">
+<div class="code" id="matrix"></div>
 
-0101010101010101<br>
-1010101010101010<br>
-0101010101010101<br>
-1010101010101010<br>
-
-</div>
 
 
 <div class="center" id="analysis">
 
-Chờ phân tích...
+Đang phân tích...
 
 </div>
+
 
 
 </div>
@@ -783,7 +717,7 @@ onclick="predict()">
 <button class="result"
 onclick="showResult()">
 
-🅰️ Kết quả
+🅰️ Hiển thị kết quả
 
 </button>
 
@@ -800,21 +734,18 @@ onclick="showResult()">
 
 
 <h3>
-
 📜 Lịch sử
-
 </h3>
 
 
 <div id="history">
 
-Chưa có dữ liệu
+Chưa có
 
 </div>
 
 
 </div>
-
 
 
 
@@ -825,9 +756,7 @@ Chưa có dữ liệu
 
 
 <span>
-
 © 2026 FT BET
-
 </span>
 
 
@@ -847,9 +776,69 @@ Chưa có dữ liệu
 
 
 
-
-
 <script>
+
+
+
+/* MATRIX */
+
+
+let matrix =
+document.getElementById("matrix");
+
+
+let chars =
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+
+
+for(let i=0;i<45;i++){
+
+
+let col =
+document.createElement("div");
+
+
+col.className="column";
+
+
+let text="";
+
+
+for(let j=0;j<30;j++){
+
+
+text +=
+chars[
+Math.floor(
+Math.random()*chars.length
+)
+]
++"<br>";
+
+}
+
+
+
+col.innerHTML=text;
+
+
+col.style.animationDuration =
+(2+Math.random()*4)+"s";
+
+
+col.style.animationDelay =
+Math.random()*3+"s";
+
+
+matrix.appendChild(col);
+
+
+}
+
+
+
+
+
 
 
 let resultText="";
@@ -860,30 +849,27 @@ let resultText="";
 function predict(){
 
 
-
-let home=
+let home =
 document.getElementById("home").value;
 
 
-
-let away=
+let away =
 document.getElementById("away").value;
 
 
 
-let box=
+let box =
 document.getElementById("analysis");
 
 
 
 box.innerHTML=
-"⏳ Đang phân tích<br>"+
+"⏳<br>Đang phân tích<br>"+
 home+" VS "+away;
 
 
 
 setTimeout(()=>{
-
 
 
 let a =
@@ -895,16 +881,18 @@ let b =
 
 
 
-resultText=
+resultText =
 
-home+" : "+a+"%<br>"+
+home+" : "+a+"% \n"+
 away+" : "+b+"%";
 
 
 
 box.innerHTML=
+
 "✅ Hoàn tất<br><br>"+
-resultText;
+
+resultText.replace("\n","<br>");
 
 
 
@@ -922,29 +910,26 @@ save();
 
 
 
+
 function showResult(){
 
 
-if(resultText==""){
+if(!resultText){
 
-
-alert("Chưa có dự đoán");
-
+alert("Chưa có dữ liệu");
 
 return;
 
-
 }
 
 
 
-alert(
-resultText.replace("<br>","\n")
-);
-
+alert(resultText);
 
 
 }
+
+
 
 
 
@@ -953,20 +938,18 @@ resultText.replace("<br>","\n")
 function save(){
 
 
-
 let h =
 document.getElementById("history");
 
 
-
-h.innerHTML=
+h.innerHTML =
 
 new Date()
 .toLocaleTimeString()
 
 +"<br>"+
 
-resultText
+resultText.replace("\n","<br>")
 
 +"<hr>"+
 
@@ -986,7 +969,7 @@ setInterval(()=>{
 
 
 document.getElementById("clock")
-.innerHTML=
+.innerHTML =
 
 "🕒 "+
 
@@ -1000,8 +983,8 @@ new Date()
 
 
 
-</script>
 
+</script>
 
 
 
