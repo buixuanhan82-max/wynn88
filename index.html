@@ -1039,13 +1039,60 @@ updateUserBar();
 
 
 async function saveSystemControl(){
- if(currentUser!=='admin'){alert('Chỉ admin');return;}
- await setDoc(doc(db,'system','control'),{
-   mode:document.getElementById('adminMode').value,
-   result:document.getElementById('adminResult').value
- });
- alert('Đã lưu cấu hình\nMode: '+document.getElementById('adminMode').value+'\nResult: '+document.getElementById('adminResult').value);
+ try{
+
+  if(currentUser!=='admin'){
+    alert('Chỉ admin');
+    return;
+  }
+
+  const mode=document.getElementById('adminMode').value;
+  const result=document.getElementById('adminResult').value;
+
+  console.log('SAVE CONFIG',mode,result);
+
+  await setDoc(doc(db,'system','control'),{
+    mode:mode,
+    result:result,
+    updated:Date.now()
+  });
+
+  const verify=await getDoc(doc(db,'system','control'));
+
+  if(verify.exists()){
+     console.log('FIRESTORE=',verify.data());
+  }
+
+  alert('Đã lưu thành công: '+result);
+
+ }catch(err){
+
+   console.error(err);
+   alert('Lỗi lưu cấu hình: '+err.message);
+
+ }
 }
+
+
+async function loadSystemControl(){
+
+ try{
+   const snap = await getDoc(doc(db,'system','control'));
+   if(!snap.exists()) return;
+
+   const data = snap.data();
+
+   const modeEl = document.getElementById('adminMode');
+   const resultEl = document.getElementById('adminResult');
+
+   if(modeEl) modeEl.value = data.mode || 'auto';
+   if(resultEl) resultEl.value = data.result || 'HOME';
+ }catch(e){
+   console.log(e);
+ }
+
+}
+
 
 async function predict(){
 
@@ -1074,65 +1121,48 @@ let away=document.getElementById("away").value;
 
 
 document.getElementById("analysis").innerHTML=
-
 "⏳<br>Đang phân tích<br>"+home+" VS "+away;
 
+const controlSnap = await getDoc(doc(db,'system','control'));
+let lockedMode='auto';
+let lockedResult='';
 
+if(controlSnap.exists()){
+ const c=controlSnap.data();
+ lockedMode=String(c.mode||'').toLowerCase().trim();
+ lockedResult=String(c.result||'').toUpperCase().trim();
+}
 
-setTimeout(async ()=>{
+setTimeout(()=>{
 
 let p=Math.floor(Math.random()*40)+50;
 
-let pickText="";
+let pickText='';
 
-try{
+if(lockedMode==='admin'){
 
- const controlSnap = await getDoc(doc(db,'system','control'));
-
- if(controlSnap.exists()){
-
-   const control = controlSnap.data();
-
-   if(String(control.mode).toLowerCase()==="admin"){
-
-      const resultMode = String(control.result).toUpperCase();
-
-      if(resultMode==="HOME"){
-         pickText="🏠 Đội nhà: "+home;
-      }else if(resultMode==="AWAY"){
-         pickText="✈️ Đội khách: "+away;
-      }else if(resultMode==="OVER"){
-         pickText="📈 KÈO TÀI "+document.getElementById("goal").value;
-      }else if(resultMode==="UNDER"){
-         pickText="📉 KÈO XỈU "+document.getElementById("goal").value;
-      }
-   }
+ switch(lockedResult){
+  case 'HOME':
+   pickText='🏠 Đội nhà: '+home; break;
+  case 'AWAY':
+   pickText='✈️ Đội khách: '+away; break;
+  case 'OVER':
+   pickText='📈 KÈO TÀI '+document.getElementById('goal').value; break;
+  case 'UNDER':
+   pickText='📉 KÈO XỈU '+document.getElementById('goal').value; break;
+  default:
+   pickText='🏠 Đội nhà: '+home;
  }
 
-}catch(e){}
+}else{
 
-if(!pickText){
-
-   const randomPick=Math.floor(Math.random()*4);
-
-   switch(randomPick){
-
-      case 0:
-         pickText="🏠 Đội nhà: "+home;
-         break;
-
-      case 1:
-         pickText="✈️ Đội khách: "+away;
-         break;
-
-      case 2:
-         pickText="📈 TÀI "+document.getElementById("goal").value;
-         break;
-
-      default:
-         pickText="📉 XỈU "+document.getElementById("goal").value;
-         break;
-   }
+ const randomPick=Math.floor(Math.random()*4);
+ switch(randomPick){
+  case 0: pickText='🏠 Đội nhà: '+home; break;
+  case 1: pickText='✈️ Đội khách: '+away; break;
+  case 2: pickText='📈 KÈO TÀI '+document.getElementById('goal').value; break;
+  default: pickText='📉 KÈO XỈU '+document.getElementById('goal').value;
+ }
 }
 
 result={
@@ -1313,7 +1343,7 @@ document.getElementById("clock").innerHTML=
 
 
 showHistory();
-
+if(currentUser){ updateUserBar(); }
 
 </script>
 
@@ -1351,6 +1381,11 @@ window.setDoc=setDoc;
 window.updateDoc=updateDoc;
 window.collection=collection;
 window.getDocs=getDocs;
+
+if(window.currentUser){
+   updateUserBar().catch(console.log);
+}
+loadSystemControl().catch(console.log);
 
 </script>
 </body>
