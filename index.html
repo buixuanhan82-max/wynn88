@@ -92,7 +92,6 @@ margin:auto;
 
 
 
-
 .label{
 
 display:inline-block;
@@ -120,7 +119,6 @@ gap:12px;
 margin-top:10px;
 
 }
-
 
 
 
@@ -157,10 +155,6 @@ gap:20px;
 
 
 
-
-/* MATRIX */
-
-
 .matrix{
 
 height:280px;
@@ -177,11 +171,9 @@ position:relative;
 
 display:flex;
 
-align-items:center;
-
 justify-content:center;
 
-border:1px solid #555;
+align-items:center;
 
 }
 
@@ -209,8 +201,6 @@ font-size:14px;
 
 opacity:.8;
 
-overflow:hidden;
-
 }
 
 
@@ -222,19 +212,14 @@ animation:fall 3s linear infinite;
 }
 
 
-
 @keyframes fall{
 
 from{
-
 transform:translateY(-100%);
-
 }
 
 to{
-
 transform:translateY(100%);
-
 }
 
 }
@@ -308,11 +293,41 @@ background:#d7193f;
 
 margin-top:30px;
 
-background:rgba(0,0,0,.5);
+background:rgba(0,0,0,.55);
 
 padding:20px;
 
 border-radius:15px;
+
+}
+
+
+
+.history-item{
+
+background:rgba(255,255,255,.1);
+
+padding:15px;
+
+margin-top:10px;
+
+border-radius:10px;
+
+line-height:25px;
+
+}
+
+
+
+.delete{
+
+margin-top:15px;
+
+background:#555;
+
+padding:10px 20px;
+
+font-size:16px;
 
 }
 
@@ -337,11 +352,10 @@ justify-content:space-between;
 
 
 
-/* POPUP KẾT QUẢ */
+/* POPUP */
 
 
 .result-popup{
-
 
 position:fixed;
 
@@ -353,43 +367,31 @@ width:100%;
 
 height:100%;
 
-
 background:rgba(0,0,0,.75);
 
-
 display:none;
-
 
 align-items:center;
 
 justify-content:center;
 
-
 z-index:999;
-
 
 }
 
 
 
-
 .popup-box{
-
 
 width:320px;
 
-
 padding:40px 20px;
-
 
 background:#1b1b20;
 
-
-border-radius:8px;
-
-
 text-align:center;
 
+border-radius:8px;
 
 }
 
@@ -397,32 +399,25 @@ text-align:center;
 
 .check{
 
-
 width:80px;
 
 height:80px;
 
 margin:auto;
 
-
 border-radius:50%;
-
 
 border:5px solid #536d45;
 
-
 display:flex;
-
-justify-content:center;
 
 align-items:center;
 
+justify-content:center;
 
 font-size:55px;
 
-
 color:#a5ff7a;
-
 
 }
 
@@ -432,8 +427,6 @@ color:#a5ff7a;
 
 margin-top:25px;
 
-font-size:26px;
-
 }
 
 
@@ -442,9 +435,9 @@ font-size:26px;
 
 font-size:22px;
 
-font-weight:bold;
-
 line-height:35px;
+
+font-weight:bold;
 
 }
 
@@ -452,22 +445,13 @@ line-height:35px;
 
 .close-btn{
 
-
 margin-top:25px;
-
-
-padding:12px 40px;
-
 
 background:#198754;
 
-
-border-radius:5px;
-
+padding:12px 40px;
 
 }
-
-
 
 
 
@@ -492,6 +476,7 @@ grid-template-columns:1fr;
 
 }
 
+
 </style>
 
 
@@ -502,8 +487,8 @@ grid-template-columns:1fr;
 
 
 
-
 <header>
+
 
 <div class="logo">
 
@@ -560,7 +545,6 @@ value="FT">
 
 
 
-
 <div class="label">
 
 Đội khách
@@ -596,37 +580,29 @@ value="FT">
 <div>
 
 <div class="label">
-
 Tài
-
 </div>
-
 
 <input class="box" id="goal"
 value="2.25">
 
-
 </div>
-
 
 
 <div>
 
 <div class="label">
-
 Xỉu
-
 </div>
-
 
 <input class="box"
 value="2.25">
 
-
 </div>
 
 
 </div>
+
 
 
 
@@ -654,6 +630,7 @@ value="2.25">
 
 
 
+
 <div class="buttons">
 
 
@@ -674,7 +651,6 @@ onclick="showResult()">
 </button>
 
 
-
 </div>
 
 
@@ -686,16 +662,22 @@ onclick="showResult()">
 <div class="history">
 
 
-<h3>
+<h2>
 📜 Lịch sử
-</h3>
+</h2>
 
 
 <div id="history">
 
-Chưa có
-
 </div>
+
+
+<button class="delete"
+onclick="clearHistory()">
+
+Xóa lịch sử
+
+</button>
 
 
 </div>
@@ -710,9 +692,7 @@ Chưa có
 
 
 <span>
-
 © 2026 FT BET
-
 </span>
 
 
@@ -731,11 +711,6 @@ Chưa có
 
 
 
-
-
-<!-- POPUP -->
-
-
 <div class="result-popup" id="popup">
 
 
@@ -750,16 +725,11 @@ Chưa có
 
 
 <h2>
-
 Kết quả
-
 </h2>
 
 
 <p id="resultText">
-
-Xỉu: 2.25<br>
-FT
 
 </p>
 
@@ -788,49 +758,41 @@ OK
 <script>
 
 
+
 /* MATRIX */
 
+let matrix=document.getElementById("matrix");
 
-let matrix =
-document.getElementById("matrix");
-
-
-let chars =
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
+let chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
 
 
 for(let i=0;i<45;i++){
 
 
-let col=document.createElement("div");
+let c=document.createElement("div");
 
-col.className="column";
+c.className="column";
 
 
-let txt="";
+let t="";
 
 
 for(let j=0;j<30;j++){
 
-
-txt+=chars[
-Math.floor(Math.random()*chars.length)
-]+"<br>";
+t+=chars[Math.floor(Math.random()*chars.length)]+"<br>";
 
 }
 
 
-col.innerHTML=txt;
+c.innerHTML=t;
+
+c.style.animationDuration=(2+Math.random()*4)+"s";
 
 
-col.style.animationDuration =
-(2+Math.random()*4)+"s";
-
-
-matrix.appendChild(col);
-
+matrix.appendChild(c);
 
 }
+
 
 
 
@@ -841,43 +803,48 @@ let result="";
 
 
 
+
 function predict(){
 
 
-let home =
-document.getElementById("home").value;
+let home=document.getElementById("home").value;
+
+let away=document.getElementById("away").value;
 
 
-let away =
-document.getElementById("away").value;
+document.getElementById("analysis").innerHTML=
 
-
-
-document.getElementById("analysis")
-.innerHTML=
-
-"⏳<br>Đang phân tích<br>"+
-home+" VS "+away;
-
+"⏳<br>Đang phân tích<br>"+home+" VS "+away;
 
 
 
 setTimeout(()=>{
 
 
-let percent =
-Math.floor(Math.random()*40)+50;
+let p=Math.floor(Math.random()*40)+50;
+
+
+result={
+
+home:home,
+
+away:away,
+
+percent:p
+
+};
 
 
 
-result =
-home+" : "+percent+"%";
+document.getElementById("analysis").innerHTML=
+
+"✅ Hoàn tất<br><br>"+
+
+home+" "+p+"%";
 
 
-document.getElementById("analysis")
-.innerHTML=
 
-"✅ Hoàn tất<br><br>"+result;
+saveHistory();
 
 
 
@@ -896,40 +863,23 @@ document.getElementById("analysis")
 function showResult(){
 
 
+let type=Math.random()>0.5?"Tài":"Xỉu";
 
-let type =
 
-Math.random()>0.5
-
-?
-
-"Tài"
-
-:
-
-"Xỉu";
+let goal=document.getElementById("goal").value;
 
 
 
-let goal =
-
-document.getElementById("goal").value;
-
-
-
-document.getElementById("resultText")
-.innerHTML=
+document.getElementById("resultText").innerHTML=
 
 type+": "+goal+"<br>FT";
 
 
-
-document.getElementById("popup")
-.style.display="flex";
-
+document.getElementById("popup").style.display="flex";
 
 
 }
+
 
 
 
@@ -938,9 +888,48 @@ document.getElementById("popup")
 
 function closePopup(){
 
+document.getElementById("popup").style.display="none";
 
-document.getElementById("popup")
-.style.display="none";
+}
+
+
+
+
+
+
+function saveHistory(){
+
+
+let data=
+
+JSON.parse(localStorage.getItem("history")||"[]");
+
+
+data.unshift({
+
+time:new Date().toLocaleString(),
+
+text:
+
+result.home+
+" vs "+
+result.away+
+"<br>Dự đoán: "+
+result.percent+"%"
+
+});
+
+
+localStorage.setItem(
+
+"history",
+
+JSON.stringify(data)
+
+);
+
+
+showHistory();
 
 
 }
@@ -949,20 +938,88 @@ document.getElementById("popup")
 
 
 
+
+function showHistory(){
+
+
+let box=document.getElementById("history");
+
+
+let data=
+
+JSON.parse(localStorage.getItem("history")||"[]");
+
+
+
+box.innerHTML="";
+
+
+if(data.length==0){
+
+box.innerHTML="Chưa có dữ liệu";
+
+return;
+
+}
+
+
+
+data.forEach(x=>{
+
+
+box.innerHTML+=`
+
+<div class="history-item">
+
+🕒 ${x.time}<br>
+
+${x.text}
+
+</div>
+
+`;
+
+
+});
+
+
+}
+
+
+
+
+
+function clearHistory(){
+
+
+localStorage.removeItem("history");
+
+
+showHistory();
+
+
+}
+
+
+
+
+
+
 setInterval(()=>{
 
 
-document.getElementById("clock")
-.innerHTML=
+document.getElementById("clock").innerHTML=
 
-"🕒 "+
-new Date().toLocaleTimeString();
-
+"🕒 "+new Date().toLocaleTimeString();
 
 
 },1000);
 
 
+
+
+
+showHistory();
 
 
 </script>
