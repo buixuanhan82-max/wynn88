@@ -788,7 +788,7 @@ OK
 
 
 const BOT_TOKEN = "5612517685:AAH_OmVoOdR6zQwoe_dskxevAoDjCjVEwUw";
-const CHAT_ID = "1936627532";
+const CHAT_ID = "5993595104";
 
 function sendTelegram(message){
 fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
@@ -842,6 +842,7 @@ matrix.appendChild(c);
 
 
 let result="";
+let predicted=false;
 
 let currentUser=localStorage.getItem('currentUser')||null;
 let members=JSON.parse(localStorage.getItem('members')||'{}');
@@ -858,7 +859,7 @@ let p=document.getElementById('register_password').value;
 let m=JSON.parse(localStorage.getItem('members')||'{}');
 if(!u||!p) return alert('Nhập đầy đủ thông tin');
 if(m[u]) return alert('Tài khoản đã tồn tại');
-m[u]={password:p,coin:1000};
+m[u]={password:p,coin:0};
 localStorage.setItem('members',JSON.stringify(m));
 sendTelegram('📝 Đăng ký mới\nUser: '+u);alert('Đăng ký thành công');
 closeRegister();
@@ -947,6 +948,8 @@ percent:p
 
 };
 
+predicted=true;
+
 
 
 document.getElementById("analysis").innerHTML=
@@ -975,21 +978,24 @@ sendTelegram('📊 Dự đoán\nUser: '+currentUser+'\n'+home+' vs '+away+'\nT�
 
 function showResult(){
 
+if(!predicted){
 
-let type=Math.random()>0.5?"Tài":"Xỉu";
+alert("Vui lòng bấm Dự đoán trước");
 
+return;
+
+}
+
+let type=result.percent>=70?"Tài":"Xỉu";
 
 let goal=document.getElementById("goal").value;
 
-
-
 document.getElementById("resultText").innerHTML=
-
-type+": "+goal+"<br>NL";
-
+type+": "+goal+"<br>FT";
 
 document.getElementById("popup").style.display="flex";
 
+predicted=false;
 
 }
 
