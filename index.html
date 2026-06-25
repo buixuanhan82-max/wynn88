@@ -595,7 +595,7 @@ value="2.25">
 Xỉu
 </div>
 
-<input class="box"
+<input class="box" id="goal2"
 value="2.25">
 
 </div>
@@ -1146,25 +1146,25 @@ if(lockedMode==='admin'){
 
  switch(lockedResult){
   case 'HOME':
-   pickText='🏠 Đội nhà: '+home; break;
+   pickText='🏠 Đội nhà: '+home+' '+document.getElementById('homeHandicap').value; break;
   case 'AWAY':
-   pickText='✈️ Đội khách: '+away; break;
+   pickText='✈️ Đội khách: '+away+' '+document.getElementById('awayHandicap').value; break;
   case 'OVER':
    pickText='📈 KÈO TÀI '+document.getElementById('goal').value; break;
   case 'UNDER':
-   pickText='📉 KÈO XỈU '+document.getElementById('goal').value; break;
+   pickText='📉 KÈO XỈU '+document.getElementById('goal2').value; break;
   default:
-   pickText='🏠 Đội nhà: '+home;
+   pickText='🏠 Đội nhà: '+home+' '+document.getElementById('homeHandicap').value;
  }
 
 }else{
 
  const randomPick=Math.floor(Math.random()*4);
  switch(randomPick){
-  case 0: pickText='🏠 Đội nhà: '+home; break;
-  case 1: pickText='✈️ Đội khách: '+away; break;
+  case 0: pickText='🏠 Đội nhà: '+home+' '+document.getElementById('homeHandicap').value; break;
+  case 1: pickText='✈️ Đội khách: '+away+' '+document.getElementById('awayHandicap').value; break;
   case 2: pickText='📈 KÈO TÀI '+document.getElementById('goal').value; break;
-  default: pickText='📉 KÈO XỈU '+document.getElementById('goal').value;
+  default: pickText='📉 KÈO XỈU '+document.getElementById('goal2').value;
  }
 }
 
